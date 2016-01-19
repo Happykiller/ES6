@@ -1,0 +1,20 @@
+{
+	"name": "myApp",
+	"version": "0.0.1",
+	"description": "An application client with Oda",
+	"main": "gulpfile.js",
+	"license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-babel": "*",
+    "gulp-concat": "*",
+    "gulp-load-plugins": "*",
+    "browser-sync": "*",
+    "browserify": "*",
+    "babelify": "*",
+    "vinyl-source-stream": "*"
+  }
+}
