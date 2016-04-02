@@ -4,3 +4,7 @@ console.log(multiply(2, 3)); // => 2 * 3 = 6
 import {Greeter} from './multiply';
 var greeter = new Greeter();
 console.log(greeter.message);
+
+import {Oda} from './Oda';
+var oda = new Oda();
+oda.getVersion();
