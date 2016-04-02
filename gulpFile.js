@@ -28,11 +28,17 @@ gulp.task('compress', function() {
     return;
 });
 
-gulp.task('dist', ['build','compress'], function () {
+gulp.task('clean', function () {
+    return gulp.src('dist/*', {read: false})
+        .pipe(plugins.clean());
 });
 
-gulp.task('watch-build', ['build','compress'], function () {
-    gulp.watch('src/**/*.jsx', ['build','compress']);
+gulp.task('dist', function(callback){
+    plugins.sequence('build','compress')(callback);
+});
+
+gulp.task('watch-build', ['dist'], function () {
+    gulp.watch('src/**/*.jsx', ['dist']);
 });
 
 gulp.task('browser-sync', function() {

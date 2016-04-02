@@ -18,6 +18,8 @@
     "vinyl-source-stream": "*",
     "babel-preset-es2015": "*",
     "gulp-uglify": "*",
-    "gulp-rename": "*"
+    "gulp-rename": "*",
+    "gulp-clean": "*",
+    "gulp-sequence": "*"
   }
 }
