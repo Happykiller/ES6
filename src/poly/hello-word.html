@@ -6,3 +6,11 @@
     </style>
     <h1>Hello <span id="name"></span>!</h1>
 </template>
+<script>
+    let doc = document.currentScript.ownerDocument;
+    let inte = 0;
+    doc.querySelector('#name').onclick(function(e) {
+        inte += 1;
+        console.log(inte);
+    });
+</script>

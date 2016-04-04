@@ -5,6 +5,7 @@
 export class Oda {
     constructor () {
         this.version = "0.1.150402.01";
+        this.polys = {};
     }
 
     getVersion () {
@@ -18,6 +19,27 @@ export class Oda {
         });
         str = str.substr(0, str.length-1);
         console.log(str);
+    }
+
+    /**
+     * name
+     * param
+     * css
+     * html
+     * init
+     * callback
+     * @param params
+     */
+    createPoly (params) {
+        let options = {};
+
+        params.param.forEach((value) => {
+
+        });
+
+        this.polys[params.name] = document.registerElement(params.name, {
+            prototype: Object.create(HTMLElement.prototype, options)
+        });
     }
     
     deployPoly () {
