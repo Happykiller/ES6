@@ -31,41 +31,86 @@ export class Oda {
      * @param params
      */
     createPoly (params) {
+        let that = this;
+
         let options = {};
 
-        params.param.forEach((value) => {
+        const defaultAttribut = {
+            writable: true,
+            enumerable: true,
+            configurable: true
+        };
 
-        });
+        for(let key in params.param){
+            let elt = params.param[key];
+            let copy = Object.assign(elt, defaultAttribut);
+            options[key] = copy;
+        }
+
+        options.createdCallback = {
+            value () {
+                let root = this.createShadowRoot();
+                let content = document.createElement("div");
+                let target = params.html;
+                let scope =  {};
+
+                for(let key in params.param){
+                    let variable = this.getAttribute(key);
+
+                    if((variable == null) && (this[key] != variable)){
+                        variable = this[key];
+                    }
+
+                    scope[key] = variable;
+
+                    target = that.replaceAll({
+                        str: target,
+                        find: `{{${key}}}`,
+                        by: variable
+                    });
+                }
+
+                content.innerHTML = target;
+
+                root.appendChild(content);
+
+                params.callback(root, scope);
+            }
+        };
 
         this.polys[params.name] = document.registerElement(params.name, {
             prototype: Object.create(HTMLElement.prototype, options)
         });
     }
-    
-    deployPoly () {
-        let polyHelloWord = document.registerElement('hello-world', {
-            prototype: Object.create(HTMLElement.prototype, {
-                name: {                 // optionnel si on n'a pas besoin de valeur par défaut
-                    value: "Mylan",        // valeur par défaut de l'attribut name
-                    writable: true,
-                    enumerable: true,
-                    configurable: true
-                },
-                createdCallback: { // exécuté à chaque création d'un élément <hello-world>
-                    value () {
-                        var root = this.createShadowRoot();
-                        var content = document.createElement("h1");
-                        var name = this.getAttribute("name");
 
-                        if(name != null && this.name != name){
-                            this.name = name;
-                        }
+    /**
+     * @param p_params
+     * @param p_params.str
+     * @param p_params.find
+     * @param p_params.by
+     * @param p_params.ignoreCase by default false
+     * @returns {String}
+     */
+    replaceAll (p_params) {
+        try {
+            if(p_params.find === ''){
+                return p_params.str;
+            }
 
-                        content.innerText = `Hello ${this.name}!`;
-                        root.appendChild(content);
-                    }
-                }
-            })
-        });
+            var opt = "g";
+            if(p_params.hasOwnProperty('ignoreCase') && p_params.ignoreCase){
+                opt = 'gi';
+            }
+
+            var strFind = p_params.find.replace(/([.?*+^$[\]\\(){}|-])/gi, "\\$1");
+
+            var re = new RegExp(strFind, opt);
+
+            var strReturn = p_params.str.replace(re, p_params.by);
+
+            return strReturn;
+        } catch (er) {
+            return null;
+        }
     }
 }
