@@ -30,7 +30,6 @@ oda.createPoly({
     },
     html: `<style>table, th, td {border: 1px solid black;}</style><table id="myTable"><thead><tr><th>col1</th></tr></thead><tbody></tbody></table>`,
     callback: (root, scope) => {
-        console.log(scope.list);
         let table = root.getElementById("myTable").getElementsByTagName('tbody')[0];
 
         // Create an empty <tr> element and add it to the 1st position of the table:
@@ -52,3 +51,37 @@ oda.createPoly({
 });
 
 document.querySelector('#test').innerHTML ='<hello-world name="aurore"></hello-world>';
+
+
+oda.createPoly({
+    name: "avatar-list",
+    html: `<style>table, th, td {border: 1px solid black;}</style><table id="myTable"><thead><tr><th>avatar</th></tr></thead><tbody></tbody></table>`,
+    callback: (root, scope, content, that) => {
+        let table = root.getElementById("myTable").getElementsByTagName('tbody')[0];
+
+        for(let index in content.getElementsByTagName('my-photo')){
+            let elt = content.getElementsByTagName('my-photo')[index];
+            if(typeof elt === 'object'){
+                let row = table.insertRow(index);
+                let cell = row.insertCell(0);
+                cell.innerHTML = elt.outerHTML;
+            }
+        }
+    }
+});
+
+oda.createPoly({
+    name: "my-photo",
+    param: {
+        class: {
+            value: "class"
+        },
+        src: {
+            value: "src"
+        }
+    },
+    html: `<span style="font-weight: bold;">{{innerHTML}}</span>`,
+    callback: (root, scope, content, that) => {
+
+    }
+});

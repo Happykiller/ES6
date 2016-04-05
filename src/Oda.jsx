@@ -49,10 +49,19 @@ export class Oda {
 
         options.createdCallback = {
             value () {
-                let root = this.createShadowRoot();
-                let content = document.createElement("div");
-                let target = params.html;
+                let content = document.createElement("arch");
                 let scope =  {};
+                content.innerHTML = this.innerHTML;
+                scope['innerHTML'] = this.innerHTML;
+                this.innerHTML = "";
+                let root = this.createShadowRoot();
+                let target = params.html;
+
+                target = that.replaceAll({
+                    str: target,
+                    find: `{{innerHTML}}`,
+                    by: scope['innerHTML']
+                });
 
                 for(let key in params.param){
                     let variable = this.getAttribute(key);
@@ -70,11 +79,9 @@ export class Oda {
                     });
                 }
 
-                content.innerHTML = target;
+                root.innerHTML = target;
 
-                root.appendChild(content);
-
-                params.callback(root, scope);
+                params.callback(root, scope, content, this);
             }
         };
 
