@@ -63,8 +63,18 @@ export class Oda {
                     by: scope['innerHTML']
                 });
 
-                for(let key in params.param){
+                for(let key in params.param) {
                     let variable = this.getAttribute(key);
+
+                    if (variable !== null) {
+                        let json = variable.replace(/'/g, '"');
+                        try{
+                            json = JSON.parse(json);
+                            variable = json;
+                        }catch (ex){
+
+                        }
+                    }
 
                     if((variable == null) && (this[key] != variable)){
                         variable = this[key];
@@ -81,7 +91,13 @@ export class Oda {
 
                 root.innerHTML = target;
 
-                params.callback(root, scope, content, this);
+                var datas = {
+                    rootDOM: root,
+                    dataScope: scope,
+                    oldDOMContent: content,
+                    poly: this
+                }
+                params.callback(datas);
             }
         };
 
