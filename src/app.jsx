@@ -75,3 +75,5 @@ oda.createPoly({
 });
 
 document.querySelector('#test').innerHTML ='<hello-world name="aurore"></hello-world>';
+
+document.querySelector('#test2').innerHTML ='<hello-world name="enrico"></hello-world>';
