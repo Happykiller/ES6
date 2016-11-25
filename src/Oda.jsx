@@ -4,7 +4,7 @@
 //http://blog.soat.fr/2015/02/html-5-introduction-aux-web-components/
 export class Oda {
     constructor () {
-        this.version = "0.1.150402.01";
+        this.version = "0.1.161125.01";
         this.polys = {};
     }
 
