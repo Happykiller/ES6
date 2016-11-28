@@ -1,6 +1,6 @@
-import {Oda} from './Oda';
-
-let oda = new Oda();
+import { oda } from './Oda';
+import { OdaGames } from "./OdaGames/OdaGames";
+import { OdaGamesFindMe } from "./OdaGames/OdaGamesFindMe";
 
 oda.getVersion();
 oda.sayHello("Fabrice", "Aurore", "Illidan");

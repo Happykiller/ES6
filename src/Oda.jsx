@@ -1,17 +1,27 @@
 /**
  * Created by Happykiller on 02/04/2016.
  */
-//http://blog.soat.fr/2015/02/html-5-introduction-aux-web-components/
 export class Oda {
     constructor () {
-        this.version = "0.1.161125.01";
+        //Private part
         this.polys = {};
+        this.version = "0.1.161125.01";
+
+        //Public part
+        window.Oda = {};
+        window.Oda.version = this.version;
     }
 
+    /**
+     * 
+     */
     getVersion () {
         console.log(`Oda FrameWork current version : ${this.version}`);
     }
 
+    /**
+     * @param {array} whos
+     */
     sayHello (...whos) {
         let str = `Bonjour : `;
         whos.forEach(who => {
@@ -22,13 +32,13 @@ export class Oda {
     }
 
     /**
-     * name
-     * param
-     * css
-     * html
-     * init
-     * callback
      * @param params
+     * @param {string} params.name
+     * @param {string} params.param
+     * @param {string} params.css
+     * @param {string} params.html
+     * @param {string} params.init
+     * @param {function} params.callback
      */
     createPoly (params) {
         let that = this;
@@ -101,35 +111,35 @@ export class Oda {
             }
         };
 
-        this.polys[params.name] = document.registerElement(params.name, {
+        that.polys[params.name] = document.registerElement(params.name, {
             prototype: Object.create(HTMLElement.prototype, options)
         });
     }
 
     /**
-     * @param p_params
-     * @param p_params.str
-     * @param p_params.find
-     * @param p_params.by
-     * @param p_params.ignoreCase by default false
+     * @param params
+     * @param {string} params.str
+     * @param {string} params.find
+     * @param {string} params.by
+     * @param {boolean} params.ignoreCase by default false
      * @returns {String}
      */
-    replaceAll (p_params) {
+    replaceAll (params) {
         try {
-            if(p_params.find === ''){
-                return p_params.str;
+            if(params.find === ''){
+                return params.str;
             }
 
             var opt = "g";
-            if(p_params.hasOwnProperty('ignoreCase') && p_params.ignoreCase){
+            if(params.hasOwnProperty('ignoreCase') && params.ignoreCase){
                 opt = 'gi';
             }
 
-            var strFind = p_params.find.replace(/([.?*+^$[\]\\(){}|-])/gi, "\\$1");
+            var strFind = params.find.replace(/([.?*+^$[\]\\(){}|-])/gi, "\\$1");
 
             var re = new RegExp(strFind, opt);
 
-            var strReturn = p_params.str.replace(re, p_params.by);
+            var strReturn = params.str.replace(re, params.by);
 
             return strReturn;
         } catch (er) {
@@ -137,3 +147,5 @@ export class Oda {
         }
     }
 }
+
+export let oda = new Oda();
