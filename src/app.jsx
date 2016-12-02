@@ -1,6 +1,7 @@
 import { oda } from './Oda';
 import { OdaGames } from "./OdaGames/OdaGames";
 import { OdaGamesFindMe } from "./OdaGames/OdaGamesFindMe";
+import { OdaInterfaces } from "./OdaInterfaces/OdaInterfaces";
 
 oda.getVersion();
 oda.sayHello("Fabrice", "Aurore", "Illidan");
@@ -79,3 +80,8 @@ oda.createPoly({
 document.querySelector('#test').innerHTML ='<hello-world name="aurore"></hello-world>';
 
 document.querySelector('#test2').innerHTML ='<hello-world name="enrico"></hello-world>';
+
+oda.Interfaces.getJSON('https://jsonplaceholder.typicode.com/posts', response => {
+        console.log(response);
+    }
+);
