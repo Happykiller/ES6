@@ -1,4 +1,4 @@
-import { oda } from '../Oda';
+import { oda } from '../Oda'
 
 export class OdaInterfaces {
 
@@ -8,33 +8,61 @@ export class OdaInterfaces {
         //Public part
     }
 
-    /**
-     * @param {array} whos
-     */
-    sayHello (...whos) {
-        let str = `Bonjour : `;
-        whos.forEach(who => {
-            str += ` ${who},`;
-        });
-        str = str.substr(0, str.length-1);
-        console.log(str);
-    }
+    ajax(params){
+        'use strict'
+        let response = {
+            code: null,
+            data: null
+        }
 
-    getJSON(url, success, error) {
-        'use strict';
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                success(JSON.parse(xhr.responseText));
-            } else {
-                error(xhr.responseText);
+        if(params.method === undefined){
+            params.method = 'GET'
+        }
+        if(params.synch === undefined){
+            params.synch = false
+        }
+        if(params.dataType === undefined){
+            params.dataType = 'JSON'
+        }
+        if(params.synch){
+            //SYNCH
+            let req = new XMLHttpRequest()
+            req.open(params.method, params.url, false)
+            req.send(null)
+            response.code = req.status
+            if(req.status == 200){
+                if(params.dataType === 'JSON'){
+                    response.data = JSON.parse(req.responseText);
+                }else{
+                    response.data = req.responseText
+                }
             }
-            }
-        };
-        xhr.open('GET', url);
-        xhr.send();
+
+            return response;
+        }else{
+            //UNSYNCH
+            return new Promise((resolve, reject) => {
+                var req = new XMLHttpRequest()
+                req.open(params.method, params.url, true)
+                req.send(null)
+                req.onreadystatechange = (aEvt) => {
+                    if (req.readyState === 4) {
+                        response.code = req.status
+                        if(params.dataType === 'JSON'){
+                            response.data = JSON.parse(req.responseText);
+                        }else{
+                            response.data = req.responseText
+                        }
+                        if (req.status === 200) {
+                            resolve(response)
+                        } else {
+                            reject(response)
+                        }
+                    }
+                }
+            })
+        }
     }
 }
 
-oda.Interfaces = new OdaInterfaces();
+oda.Interfaces = new OdaInterfaces()

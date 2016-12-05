@@ -4,31 +4,31 @@
 export class Oda {
     constructor () {
         //Private part
-        this.polys = {};
-        this.version = "0.1.161125.01";
+        this.polys = {}
+        this.version = "0.1.161125.01"
 
         //Public part
-        window.Oda = {};
-        window.Oda.version = this.version;
+        window.Oda = {}
+        window.Oda.version = this.version
     }
 
     /**
      * 
      */
     getVersion () {
-        console.log(`Oda FrameWork current version : ${this.version}`);
+        console.log(`Oda FrameWork current version : ${this.version}`)
     }
 
     /**
      * @param {array} whos
      */
     sayHello (...whos) {
-        let str = `Bonjour : `;
+        let str = `Bonjour : `
         whos.forEach(who => {
-            str += ` ${who},`;
-        });
-        str = str.substr(0, str.length-1);
-        console.log(str);
+            str += ` ${who},`
+        })
+        str = str.substr(0, str.length-1)
+        console.log(str)
     }
 
     /**
@@ -41,65 +41,65 @@ export class Oda {
      * @param {function} params.callback
      */
     createPoly (params) {
-        let that = this;
+        let that = this
 
-        let options = {};
+        let options = {}
 
         const defaultAttribut = {
             writable: true,
             enumerable: true,
             configurable: true
-        };
+        }
 
         for(let key in params.param){
-            let elt = params.param[key];
-            let copy = Object.assign(elt, defaultAttribut);
-            options[key] = copy;
+            let elt = params.param[key]
+            let copy = Object.assign(elt, defaultAttribut)
+            options[key] = copy
         }
 
         options.createdCallback = {
             value () {
-                let content = document.createElement("arch");
-                let scope =  {};
-                content.innerHTML = this.innerHTML;
-                scope['innerHTML'] = this.innerHTML;
-                this.innerHTML = "";
-                let root = this.createShadowRoot();
-                let target = params.html;
+                let content = document.createElement("arch")
+                let scope =  {}
+                content.innerHTML = this.innerHTML
+                scope['innerHTML'] = this.innerHTML
+                this.innerHTML = ""
+                let root = this.createShadowRoot()
+                let target = params.html
 
                 target = that.replaceAll({
                     str: target,
                     find: `{{innerHTML}}`,
                     by: scope['innerHTML']
-                });
+                })
 
                 for(let key in params.param) {
-                    let variable = this.getAttribute(key);
+                    let variable = this.getAttribute(key)
 
                     if (variable !== null) {
-                        let json = variable.replace(/'/g, '"');
+                        let json = variable.replace(/'/g, '"')
                         try{
-                            json = JSON.parse(json);
-                            variable = json;
+                            json = JSON.parse(json)
+                            variable = json
                         }catch (ex){
 
                         }
                     }
 
                     if((variable == null) && (this[key] != variable)){
-                        variable = this[key];
+                        variable = this[key]
                     }
 
-                    scope[key] = variable;
+                    scope[key] = variable
 
                     target = that.replaceAll({
                         str: target,
                         find: `{{${key}}}`,
                         by: variable
-                    });
+                    })
                 }
 
-                root.innerHTML = target;
+                root.innerHTML = target
 
                 var datas = {
                     rootDOM: root,
@@ -107,13 +107,13 @@ export class Oda {
                     oldDOMContent: content,
                     poly: this
                 }
-                params.callback(datas);
+                params.callback(datas)
             }
-        };
+        }
 
         that.polys[params.name] = document.registerElement(params.name, {
             prototype: Object.create(HTMLElement.prototype, options)
-        });
+        })
     }
 
     /**
@@ -127,25 +127,25 @@ export class Oda {
     replaceAll (params) {
         try {
             if(params.find === ''){
-                return params.str;
+                return params.str
             }
 
-            var opt = "g";
+            var opt = "g"
             if(params.hasOwnProperty('ignoreCase') && params.ignoreCase){
-                opt = 'gi';
+                opt = 'gi'
             }
 
-            var strFind = params.find.replace(/([.?*+^$[\]\\(){}|-])/gi, "\\$1");
+            var strFind = params.find.replace(/([.?*+^$[\]\\(){}|-])/gi, "\\$1")
 
-            var re = new RegExp(strFind, opt);
+            var re = new RegExp(strFind, opt)
 
-            var strReturn = params.str.replace(re, params.by);
+            var strReturn = params.str.replace(re, params.by)
 
-            return strReturn;
+            return strReturn
         } catch (er) {
-            return null;
+            return null
         }
     }
 }
 
-export let oda = new Oda();
+export let oda = new Oda()

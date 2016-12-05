@@ -4,8 +4,8 @@ export class OdaGames {
         //Private part
 
         //Public part
-        window.Oda.Games = {};
+        window.Oda.Games = {}
     }
 }
 
-let odaGames = new OdaGames();
+let odaGames = new OdaGames()
