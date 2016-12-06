@@ -10,11 +10,6 @@ export class OdaInterfaces {
 
     ajax(params){
         'use strict'
-        let response = {
-            code: null,
-            data: null
-        }
-
         if(params.method === undefined){
             params.method = 'GET'
         }
@@ -24,6 +19,16 @@ export class OdaInterfaces {
         if(params.dataType === undefined){
             params.dataType = 'JSON'
         }
+        if(params.context === undefined){
+            params.context = {}
+        }
+
+        let response = {
+            code: null,
+            data: null,
+            context: oda.Tooling.clone(params.context)
+        }
+
         if(params.synch){
             //SYNCH
             let req = new XMLHttpRequest()

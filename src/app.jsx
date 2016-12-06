@@ -1,12 +1,14 @@
 import { oda } from './Oda'
+import { OdaTooling } from "./OdaTooling/OdaTooling"
+import { OdaInterfaces } from "./OdaInterfaces/OdaInterfaces"
+import { OdaPresentation } from "./OdaPresentation/OdaPresentation"
 import { OdaGames } from "./OdaGames/OdaGames"
 import { OdaGamesFindMe } from "./OdaGames/OdaGamesFindMe"
-import { OdaInterfaces } from "./OdaInterfaces/OdaInterfaces"
 
 oda.getVersion()
 oda.sayHello("Fabrice", "Aurore", "Illidan")
 
-oda.createPoly({
+oda.Presentation.createPoly({
     name: "hello-world",
     param: {
         name: {
@@ -21,7 +23,7 @@ oda.createPoly({
     }
 })
 
-oda.createPoly({
+oda.Presentation.createPoly({
     name: "oda-table",
     param: {
         id: {
@@ -44,7 +46,7 @@ oda.createPoly({
     }
 })
 
-oda.createPoly({
+oda.Presentation.createPoly({
     name: "avatar-list",
     html: `<style>table, th, td {border: 1px solid black}</style><table id="myTable"><thead><tr><th>avatar</th></tr></thead><tbody></tbody></table>`,
     callback: (datas) => {
@@ -61,7 +63,7 @@ oda.createPoly({
     }
 })
 
-oda.createPoly({
+oda.Presentation.createPoly({
     name: "my-photo",
     param: {
         class: {
@@ -81,8 +83,17 @@ document.querySelector('#test').innerHTML ='<hello-world name="aurore"></hello-w
 
 document.querySelector('#test2').innerHTML ='<hello-world name="enrico"></hello-world>'
 
+let truc = {
+    test: 'coucou'
+}
+
 oda.Interfaces.ajax({
-    url: 'https://jsonplaceholder.typicode.com/posts',
+    url: 'users.json',
+    context: truc
 }).then(response => {
     console.log(response)
 });
+
+truc.test = 'hllo'
+
+console.log(truc)
